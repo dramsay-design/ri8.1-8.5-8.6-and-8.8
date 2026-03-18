@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RI.8 Study Guide and Mastery Game</title>
+  <style>
+    :root{
+      --deep-purple:#3d246c;
+      --mid-purple:#5b3b8a;
+      --soft-purple:#8f75c7;
+      --deep-green:#1f6b52;
+      --mid-green:#2f8b69;
+      --soft-green:#9ad8b8;
+      --light-green:#e8f7ef;
+      --ink:#1d1d1d;
+      --white:#ffffff;
+      --gold:#d4af37;
+      --gold-dark:#9b7a17;
+      --shadow:0 12px 30px rgba(0,0,0,.18);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: Georgia, "Times New Roman", serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(154,216,184,.28), transparent 24%),
+        radial-gradient(circle at 85% 25%, rgba(143,117,199,.28), transparent 24%),
+        radial-gradient(circle at 30% 80%, rgba(47,139,105,.20), transparent 18%),
+        radial-gradient(circle at 70% 75%, rgba(91,59,138,.22), transparent 18%),
+        linear-gradient(135deg, #2a184a 0%, #3d246c 35%, #245744 100%);
+      min-height:100vh;
+    }
+
+    .swirl-overlay{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 10% 10%, transparent 0 12%, rgba(255,255,255,.05) 12.5% 13%, transparent 13.5%),
+        radial-gradient(circle at 80% 30%, transparent 0 10%, rgba(255,255,255,.04) 10.5% 11%, transparent 11.5%),
+        radial-gradient(circle at 30% 85%, transparent 0 14%, rgba(255,255,255,.04) 14.5% 15%, transparent 15.5%);
+      opacity:.9;
+    }
+
+    .container{
+      max-width:1120px;
+      margin:0 auto;
+      padding:24px 18px 48px;
+      position:relative;
+      z-index:1;
+    }
+
+    .progress-shell{
+      background:rgba(255,255,255,.8);
+      border-radius:999px;
+      padding:7px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+      position:sticky;
+      top:10px;
+      z-index:10;
+    }
+
+    .progress-track{
+      background:#ddd;
+      border-radius:999px;
+      overflow:hidden;
+      height:22px;
+      position:relative;
+    }
+
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(135deg, var(--mid-purple), var(--mid-green));
+      transition:width .4s ease;
+    }
+
+    .progress-label{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.95rem;
+      font-weight:bold;
+      color:#1b1b1b;
+    }
+
+    .card{
+      background:rgba(255,255,255,.97);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:28px;
+      margin:18px 0;
+      border:1px solid rgba(61,36,108,.10);
+    }
+
+    h1,h2,h3,h4{
+      margin-top:0;
+      color:var(--deep-purple);
+    }
+
+    h1{
+      font-size:2rem;
+      text-align:center;
+    }
+
+    h2{
+      border-bottom:4px solid var(--soft-green);
+      padding-bottom:8px;
+      margin-bottom:18px;
+    }
+
+    h3{
+      color:var(--deep-green);
+      margin-top:22px;
+    }
+
+    h4{
+      color:#4b347c;
+      margin-top:18px;
+      margin-bottom:8px;
+    }
+
+    p, li{
+      font-size:1.05rem;
+      line-height:1.7;
+    }
+
+    .intro{
+      text-align:center;
+    }
+
+    .name-wrap{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    input[type="text"]{
+      padding:14px 16px;
+      width:320px;
+      border:2px solid var(--soft-purple);
+      border-radius:12px;
+      font-size:1rem;
+      font-family:Georgia, "Times New Roman", serif;
+      outline:none;
+    }
+
+    button{
+      background:linear-gradient(135deg, var(--mid-purple), var(--deep-green));
+      color:white;
+      border:none;
+      border-radius:12px;
+      padding:12px 20px;
+      font-size:1rem;
+      font-family:Georgia, "Times New Roman", serif;
+      cursor:pointer;
+      transition:transform .15s ease, opacity .15s ease;
+      box-shadow:0 8px 18px rgba(61,36,108,.22);
+    }
+
+    button:hover{
+      transform:translateY(-1px);
+      opacity:.96;
+    }
+
+    button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    .standard-box{
+      background:linear-gradient(180deg, #f7f5fb, #f2fcf7);
+      border-left:6px solid var(--deep-green);
+      padding:16px;
+      border-radius:14px;
+      margin:14px 0 18px;
+    }
+
+    .text-box{
+      background:#fcfcff;
+      border:1px solid #ddd;
+      border-radius:14px;
+      padding:18px;
+      margin:16px 0;
+    }
+
+    .question-block{
+      background:#faf9fe;
+      border:1px solid #e2dff0;
+      border-radius:16px;
+      padding:18px;
+      margin:18px 0;
+    }
+
+    .model-box{
+      background:#f8fcfa;
+      border-left:6px solid var(--mid-green);
+      border-radius:14px;
+      padding:16px;
+      margin:14px 0;
+    }
+
+    .answer-demo{
+      background:#fffdf7;
+      border:1px solid #ecdca3;
+      border-radius:14px;
+      padding:14px;
+      margin-top:10px;
+    }
+
+    .option{
+      border:1px solid #cfc7e6;
+      border-radius:12px;
+      padding:12px 14px;
+      margin:10px 0;
+      background:white;
+      cursor:pointer;
+      transition:background .15s ease, border-color .15s ease, transform .1s ease;
+    }
+
+    .option:hover{
+      background:#f5f2fc;
+      transform:translateY(-1px);
+    }
+
+    .option.selected{
+      border:2px solid var(--mid-purple);
+      background:#f1ebff;
+    }
+
+    .option.correct{
+      background:#e7f8ef;
+      border:2px solid var(--deep-green);
+    }
+
+    .option.incorrect{
+      background:#fdecef;
+      border:2px solid #b94b63;
+    }
+
+    .small-note{
+      font-size:.96rem;
+      color:#444;
+      font-style:italic;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background:#ede7fb;
+      color:var(--deep-purple);
+      font-size:.95rem;
+      margin:4px 6px 4px 0;
+    }
+
+    .hint-box{
+      margin-top:14px;
+      border-radius:14px;
+      background:linear-gradient(135deg,#f6f3ff,#effbf4);
+      border:1px solid #d6caef;
+      padding:12px 14px;
+      overflow:hidden;
+    }
+
+    .hint-title{
+      font-weight:bold;
+      color:var(--deep-purple);
+      margin-bottom:6px;
+    }
+
+    .thinking{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-style:italic;
+      color:#3e3e3e;
+    }
+
+    .dots{
+      display:inline-flex;
+      gap:4px;
+    }
+
+    .dots span{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--mid-purple);
+      animation:bounce 1.2s infinite ease-in-out;
+      display:inline-block;
+    }
+
+    .dots span:nth-child(2){animation-delay:.15s}
+    .dots span:nth-child(3){animation-delay:.3s}
+
+    @keyframes bounce{
+      0%, 80%, 100% {transform:translateY(0); opacity:.4;}
+      40% {transform:translateY(-6px); opacity:1;}
+    }
+
+    .hint-content{
+      margin-top:10px;
+      display:none;
+    }
+
+    .hint-content.show{
+      display:block;
+      animation:fadeIn .35s ease;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(6px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    .feedback-box{
+      margin-top:14px;
+      border-radius:14px;
+      padding:14px;
+      display:none;
+      animation:fadeIn .3s ease;
+    }
+
+    .feedback-box.show{
+      display:block;
+    }
+
+    .feedback-correct{
+      background:#eaf9f0;
+      border:1px solid #92c9aa;
+      color:#184f3a;
+    }
+
+    .feedback-wrong{
+      background:#fff4f5;
+      border:1px solid #d9a1aa;
+      color:#6d2432;
+    }
+
+    .drag-shell{
+      background:#fbfbff;
+      border:1px solid #ddd;
+      border-radius:18px;
+      padding:18px;
+      margin-top:12px;
+    }
+
+    .drag-bank{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-bottom:16px;
+    }
+
+    .drag-item{
+      padding:12px;
+      background:linear-gradient(135deg,#efe9ff,#eefaf3);
+      border:2px solid #cdbff0;
+      border-radius:12px;
+      cursor:grab;
+    }
+
+    .drop-zone{
+      min-height:80px;
+      border:3px dashed var(--mid-green);
+      border-radius:14px;
+      background:var(--light-green);
+      padding:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-weight:bold;
+      color:#215c47;
+    }
+
+    .drop-zone.filled{
+      background:#e8fff1;
+      border-style:solid;
+    }
+
+    .certificate{
+      border:10px double var(--deep-purple);
+      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(240,251,245,.98));
+      padding:36px;
+      border-radius:18px;
+      text-align:center;
+      position:relative;
+    }
+
+    .seal{
+      width:110px;
+      height:110px;
+      margin:18px auto;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, #fff8c8, var(--gold) 70%);
+      border:5px solid var(--gold-dark);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2.3rem;
+      font-weight:bold;
+      color:#6f5200;
+      box-shadow:0 8px 20px rgba(0,0,0,.15);
+      position:relative;
+    }
+
+    .seal::before,
+    .seal::after{
+      content:"";
+      position:absolute;
+      bottom:-22px;
+      width:22px;
+      height:34px;
+      background:linear-gradient(180deg,#8e1c5c,#5b1038);
+      clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);
+    }
+
+    .seal::before{left:26px}
+    .seal::after{right:26px}
+
+    .score-box{
+      font-size:1.2rem;
+      font-weight:bold;
+      color:var(--deep-green);
+      margin-top:12px;
+    }
+
+    .warning{
+      background:#fff8e8;
+      border-left:6px solid #c58b00;
+      padding:14px;
+      border-radius:12px;
+      margin-top:16px;
+    }
+
+    .footer-note{
+      text-align:center;
+      color:#eee;
+      font-size:.95rem;
+      margin-top:16px;
+      font-weight:600;
+      letter-spacing:.5px;
+    }
+
+    @media print{
+      body{background:white !important;}
+      .swirl-overlay,.progress-shell,.nav,.footer-note,button{display:none !important;}
+      .container{max-width:100%;padding:0;}
+      .card{box-shadow:none;border:none;margin:0;padding:0;}
+      #screen-certificate{display:block !important;}
+      .certificate{margin-top:30px;page-break-inside:avoid;}
+    }
+  </style>
+</head>
+<body>
+<div class="swirl-overlay"></div>
+
+<div class="container">
+  <div class="progress-shell">
+    <div class="progress-track">
+      <div id="progressBar" class="progress-bar"></div>
+      <div id="progressLabel" class="progress-label">Progress: 0%</div>
+    </div>
+  </div>
+
+  <section id="screen-home" class="card">
+    <h1>RI.8 Study Guide and Mastery Game</h1>
+    <div class="intro">
+      <p>Welcome. This review game will help you study <strong>RI.8.1, RI.8.5, RI.8.6, and RI.8.8</strong> using one main text and a final practice text.</p>
+      <p>You will read, review each standard one at a time, answer EOG-style questions, and earn a certificate if you score <strong>80% or higher</strong>.</p>
+      <div>
+        <span class="pill">Text Evidence</span>
+        <span class="pill">Text Structure</span>
+        <span class="pill">Point of View</span>
+        <span class="pill">Argument and Claims</span>
+      </div>
+      <div class="name-wrap">
+        <input id="studentName" type="text" placeholder="Enter your full name" maxlength="40" />
+        <button id="startBtn">Begin</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-overview" class="card hidden">
+    <h2>Recap and Study Guide</h2>
+    <p>This review is chunked into four standards. In each section, you will see the exact standard, examples from the text, modeled EOG-style questions, and a check for understanding before moving on.</p>
+    <div class="standard-box">
+      <p><strong>RI.8.1:</strong> Cite the textual evidence that most strongly supports an analysis of what the text says explicitly as well as inferences drawn from the text.</p>
+      <p><strong>RI.8.5:</strong> Analyze in detail the structure of a specific paragraph in a text, including the role of particular sentences in developing and refining a key concept.</p>
+      <p><strong>RI.8.6:</strong> Determine an author’s point of view or purpose in a text and analyze how the author acknowledges and responds to conflicting evidence or viewpoints.</p>
+      <p><strong>RI.8.8:</strong> Delineate and evaluate the argument and specific claims in a text, assessing whether the reasoning is sound and the evidence is relevant and sufficient.</p>
+    </div>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-maintext" class="card hidden">
+    <h2>Main Text</h2>
+    <div class="text-box">
+      <p><strong>Paragraph 1.</strong> Schools across the United States are facing a new challenge as social media continues to influence students' lives. One platform that has grown extremely popular among teenagers is TikTok, an app where users watch and create short videos. While the platform can encourage creativity, many educators believe younger students may not yet have the maturity needed to manage its risks responsibly.</p>
+      <p><strong>Paragraph 2.</strong> Researchers studying adolescent development explain that the teenage brain is still learning how to manage emotions, decision making, and long-term thinking. Because of this, students sometimes struggle to recognize how online actions can affect their future opportunities. When videos are shared publicly, they can spread quickly and remain online for years.</p>
+      <p><strong>Paragraph 3.</strong> Mental health experts have also raised concerns about how constant social media use affects students’ well-being. Studies reported by the American Psychological Association show that heavy social media use is linked to increased anxiety, poor sleep, and reduced concentration in school. TikTok’s design encourages users to continue scrolling by automatically recommending new videos based on previous viewing habits.</p>
+      <p><strong>Paragraph 4.</strong> Another concern involves misinformation. Many TikTok videos share opinions or dramatic claims without providing reliable evidence. Younger students who are still learning how to evaluate sources may believe misleading content. As a result, educators emphasize the importance of developing strong media literacy skills before participating heavily on social platforms.</p>
+      <p><strong>Paragraph 5.</strong> Online safety is another factor experts discuss when debating age limits for social media use. Some reports from the Pew Research Center reveal that many teenagers experience online harassment or uncomfortable interactions with strangers. Because TikTok allows users to comment, share videos, and send messages, younger students may face situations they are not prepared to manage responsibly.</p>
+      <p><strong>Paragraph 6.</strong> For these reasons, some educators suggest that students should wait until age sixteen before using TikTok regularly. They argue that by this age, adolescents have developed stronger critical thinking skills and emotional maturity. Waiting may allow students to enjoy technology while also protecting their well-being and safety.</p>
+    </div>
+    <div class="question-block" id="aboutQuestion"></div>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-ri81" class="card hidden">
+    <h2>RI.8.1</h2>
+    <div class="standard-box">
+      <p><strong>What the standard says:</strong> Cite the textual evidence that most strongly supports an analysis of what the text says explicitly as well as inferences drawn from the text.</p>
+    </div>
+    <h3>Reminder</h3>
+    <p>This standard asks you to find the strongest evidence in the text. Sometimes the answer is directly stated. Sometimes you must make an inference, but your inference still must be supported by the text.</p>
+    <div class="hint-box">
+      <div class="hint-title">Thinking Hint</div>
+      <div class="thinking">
+        <span>Pause, reread, and ask: Which exact words in the paragraph prove the answer?</span>
+        <span class="dots"><span></span><span></span><span></span></span>
+      </div>
+      <button onclick="toggleHint('hint81')">Show Hint</button>
+      <div id="hint81" class="hint-content">
+        Look for signal words such as <strong>linked to</strong>, <strong>because</strong>, and <strong>as a result</strong>. These often point to evidence you can use.
+      </div>
+    </div>
+
+    <h3>Modeled Example 1: Vocabulary in Context</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> As used in paragraph 4, what does the word <em>misleading</em> most nearly mean?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. amusing and entertaining<br>B. likely to confuse or give the wrong idea<br>C. fully proven by research<br>D. too difficult to understand</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> Read the sentences around the word. Paragraph 4 explains that some TikTok videos share opinions or dramatic claims without reliable evidence. Then it says younger students may believe that content. That context shows that <em>misleading</em> means something that can fool a person or lead them to a wrong belief.</p>
+        <p><strong>Correct Answer:</strong> B. likely to confuse or give the wrong idea</p>
+      </div>
+    </div>
+
+    <h3>Modeled Example 2: Inference</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> Which inference is best supported by paragraph 3?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. Students who use TikTok will always fail their classes.<br>B. Long periods of scrolling may make it harder for some students to stay focused on school responsibilities.<br>C. Teachers want all social media banned permanently.<br>D. Anxiety is caused only by homework, not by social media.</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> Paragraph 3 explains that heavy social media use is linked to anxiety, poor sleep, and reduced concentration in school. It also says TikTok keeps users scrolling through recommended videos. Those details support the inference that long use may interfere with focus and school responsibilities. The text does not say every student will fail, so A is too extreme.</p>
+        <p><strong>Correct Answer:</strong> B. Long periods of scrolling may make it harder for some students to stay focused on school responsibilities.</p>
+      </div>
+    </div>
+
+    <div class="question-block" id="ri81q1"></div>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-ri85" class="card hidden">
+    <h2>RI.8.5</h2>
+    <div class="standard-box">
+      <p><strong>What the standard says:</strong> Analyze in detail the structure of a specific paragraph in a text, including the role of particular sentences in developing and refining a key concept.</p>
+    </div>
+    <h3>Reminder</h3>
+    <p>This standard asks you to study how a paragraph is built and how its sentences work together to develop the author’s ideas.</p>
+    <div class="hint-box">
+      <div class="hint-title">Thinking Hint</div>
+      <div class="thinking">
+        <span>Ask: What job is this paragraph doing in the text?</span>
+        <span class="dots"><span></span><span></span><span></span></span>
+      </div>
+      <button onclick="toggleHint('hint85')">Show Hint</button>
+      <div id="hint85" class="hint-content">
+        Good readers notice whether a paragraph introduces a new concern, adds evidence, gives an example, or explains why something matters.
+      </div>
+    </div>
+
+    <h3>Modeled Example 1: Role of a Paragraph</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> How does paragraph 4 contribute to the development of the author’s argument?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. It introduces a new concern about misinformation and explains why younger users may struggle to judge online content.<br>B. It repeats the same claim about mental health without adding a new idea.<br>C. It explains how TikTok videos are edited and posted online.<br>D. It shifts the passage away from the issue of social media use.</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> Paragraph 4 begins with “Another concern involves misinformation.” That tells you the paragraph is adding a new supporting reason. The rest of the paragraph explains why misinformation is dangerous for younger users. That means the paragraph develops the larger argument by adding another reason for caution.</p>
+        <p><strong>Correct Answer:</strong> A. It introduces a new concern about misinformation and explains why younger users may struggle to judge online content.</p>
+      </div>
+    </div>
+
+    <h3>Modeled Example 2: Role of a Specific Sentence</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> What is the role of the first sentence in paragraph 5?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. It concludes the entire passage.<br>B. It introduces another supporting point about online safety before details are provided.<br>C. It gives a counterclaim that weakens the author’s position.<br>D. It defines a vocabulary term for the reader.</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> The sentence says, “Online safety is another factor experts discuss…” The phrase “another factor” signals that the author is adding one more supporting reason. The sentences that follow explain harassment, unwanted contact, and privacy concerns. So the sentence introduces the key concept for that paragraph.</p>
+        <p><strong>Correct Answer:</strong> B. It introduces another supporting point about online safety before details are provided.</p>
+      </div>
+    </div>
+
+    <div class="question-block" id="ri85q1"></div>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-ri86" class="card hidden">
+    <h2>RI.8.6</h2>
+    <div class="standard-box">
+      <p><strong>What the standard says:</strong> Determine an author’s point of view or purpose in a text and analyze how the author acknowledges and responds to conflicting evidence or viewpoints.</p>
+    </div>
+    <h3>Reminder</h3>
+    <p>This standard asks you to determine what the author believes and how the author responds to other viewpoints or possible objections.</p>
+    <div class="hint-box">
+      <div class="hint-title">Thinking Hint</div>
+      <div class="thinking">
+        <span>Look for places where the author admits a benefit, then shifts back to a concern.</span>
+        <span class="dots"><span></span><span></span><span></span></span>
+      </div>
+      <button onclick="toggleHint('hint86')">Show Hint</button>
+      <div id="hint86" class="hint-content">
+        Signal words such as <strong>while</strong>, <strong>but</strong>, and <strong>however</strong> often show how an author acknowledges another viewpoint before responding to it.
+      </div>
+    </div>
+
+    <h3>Modeled Example 1: Point of View</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> Which statement best expresses the author’s point of view?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. TikTok should be used in every classroom because it is creative.<br>B. Younger students may not be ready to use TikTok responsibly because of several risks.<br>C. All technology should be removed from teenagers’ lives.<br>D. Social media has no meaningful influence on adolescents.</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> Look at the full passage, especially the last paragraph. The author presents concerns about mental health, misinformation, online safety, and maturity. The conclusion states that some educators suggest students should wait until age sixteen. That shows the author’s point of view is that younger students may not yet be ready to use TikTok responsibly.</p>
+        <p><strong>Correct Answer:</strong> B. Younger students may not be ready to use TikTok responsibly because of several risks.</p>
+      </div>
+    </div>
+
+    <h3>Modeled Example 2: Conflicting Viewpoints</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> How does the author acknowledge a competing viewpoint in the passage?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. By stating that TikTok can encourage creativity before explaining why that benefit does not remove the risks<br>B. By refusing to mention any positive aspect of social media<br>C. By proving that every video on TikTok is harmful<br>D. By saying that creativity is more important than safety</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> In paragraph 1, the author says the platform can encourage creativity. That acknowledges a possible positive viewpoint. However, the author then shifts to concerns about maturity and risks. This shows the author recognizes another viewpoint but responds by explaining why caution is still necessary.</p>
+        <p><strong>Correct Answer:</strong> A. By stating that TikTok can encourage creativity before explaining why that benefit does not remove the risks</p>
+      </div>
+    </div>
+
+    <div class="question-block" id="ri86q1"></div>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-ri88" class="card hidden">
+    <h2>RI.8.8</h2>
+    <div class="standard-box">
+      <p><strong>What the standard says:</strong> Delineate and evaluate the argument and specific claims in a text, assessing whether the reasoning is sound and the evidence is relevant and sufficient.</p>
+    </div>
+    <h3>Reminder</h3>
+    <p>This standard asks you to identify the claim, trace the reasons, and judge whether the evidence truly supports the argument.</p>
+    <div class="hint-box">
+      <div class="hint-title">Thinking Hint</div>
+      <div class="thinking">
+        <span>Ask: What is the claim, and which details actually support it?</span>
+        <span class="dots"><span></span><span></span><span></span></span>
+      </div>
+      <button onclick="toggleHint('hint88')">Show Hint</button>
+      <div id="hint88" class="hint-content">
+        Strong evidence is directly connected to the author’s claim. Irrelevant details may sound related, but they do not prove the point.
+      </div>
+    </div>
+
+    <h3>Modeled Example 1: Identifying the Claim and Reasons</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> Which statement best identifies the author’s main claim?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. Teenagers should spend more time on TikTok to improve their creativity.<br>B. Students should wait until age sixteen before using TikTok regularly.<br>C. Social media companies should stop creating short videos.<br>D. Mental health experts disagree completely about social media.</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> Read the conclusion in paragraph 6. It clearly states that some educators suggest students should wait until age sixteen before using TikTok regularly. The earlier paragraphs provide reasons to support that claim, such as mental health, misinformation, and online safety concerns.</p>
+        <p><strong>Correct Answer:</strong> B. Students should wait until age sixteen before using TikTok regularly.</p>
+      </div>
+    </div>
+
+    <h3>Modeled Example 2: Evaluating Evidence</h3>
+    <div class="model-box">
+      <p><strong>EOG-Type Question:</strong> Which evaluation of the author’s evidence is most accurate?</p>
+      <p><strong>Answer Choices:</strong></p>
+      <p>A. The evidence is relevant because it comes from researchers and organizations connected to adolescent behavior and online safety.<br>B. The evidence is weak because the author includes more than one reason.<br>C. The evidence is irrelevant because it focuses on students rather than adults.<br>D. The evidence is insufficient because the author mentions creativity.</p>
+      <div class="answer-demo">
+        <p><strong>How to answer using the text:</strong> The author uses research from the American Psychological Association and Pew Research Center, along with statements about adolescent development and media literacy. Those sources relate directly to the topic, so the evidence is relevant and supports the claim. The presence of a positive point about creativity does not make the evidence weak.</p>
+        <p><strong>Correct Answer:</strong> A. The evidence is relevant because it comes from researchers and organizations connected to adolescent behavior and online safety.</p>
+      </div>
+    </div>
+
+    <div class="question-block" id="ri88q1"></div>
+
+    <div class="drag-shell">
+      <h3>Drag-and-Drop Evidence Challenge</h3>
+      <p><strong>Directions:</strong> Drag the strongest piece of evidence into the drop zone to support the claim: <em>Students under sixteen may not be ready to use TikTok responsibly.</em></p>
+      <div id="dragBank" class="drag-bank">
+        <div class="drag-item" draggable="true" data-correct="false">TikTok is one of the most popular platforms among adolescents.</div>
+        <div class="drag-item" draggable="true" data-correct="true">Evidence from psychology organizations, media researchers, and online safety experts shows that adolescents are still developing the responsibility needed to navigate complex social media environments.</div>
+        <div class="drag-item" draggable="true" data-correct="false">TikTok allows users to create and watch short videos.</div>
+        <div class="drag-item" draggable="true" data-correct="false">Some students enjoy using social media after school.</div>
+      </div>
+      <div id="dropZone" class="drop-zone">Drop the strongest evidence here</div>
+      <p id="dragResult" class="small-note"></p>
+    </div>
+
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-practiceintro" class="card hidden">
+    <h2>Practice Page</h2>
+    <p>Now you will apply what you learned to a new passage. Read the passage carefully then answer the 8 questions that follow.</p>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-practicetext" class="card hidden">
+    <h2>New Practice Text</h2>
+    <div class="text-box">
+      <p>Social media has become a powerful part of everyday life for teenagers, but not all platforms are appropriate for younger users. One of the most popular platforms among adolescents is TikTok, an app where users watch and create short videos. While the platform can be entertaining and creative, many educators and child development experts argue that students under the age of 16 may not yet have the maturity needed to handle its risks responsibly. Because of concerns about mental health, misinformation, and online safety, many believe students should not use TikTok until they are at least sixteen years old.</p>
+      <p>Research has shown that heavy social media use can affect teenagers’ mental health. According to studies discussed by the American Psychological Association, adolescents who spend excessive time on social media may experience increased anxiety, depression, and sleep problems. TikTok’s algorithm is designed to keep users watching videos for long periods of time by constantly recommending new content. As a result, many students lose track of time and spend hours scrolling instead of focusing on schoolwork, physical activity, or healthy sleep habits.</p>
+      <p>Another concern is that younger students often struggle to recognize misleading or false information online. Experts from Common Sense Media explain that adolescents are still developing critical thinking skills needed to evaluate the accuracy of online content. TikTok videos can spread rumors, unverified claims, or dangerous challenges very quickly because millions of users can share them within minutes. Without strong media literacy skills, younger teens may believe or imitate harmful trends before realizing the risks.</p>
+      <p>Online safety is another reason many people support limiting access to TikTok for younger students. Reports from Pew Research Center indicate that many teenagers have experienced some form of online harassment or unwanted contact on social media platforms. TikTok allows strangers to comment on videos, send messages, and share personal content widely. Younger adolescents may not yet understand how to protect their privacy or respond safely when negative interactions occur online.</p>
+      <p>In addition, the design of TikTok encourages constant engagement through likes, comments, and follower counts. These features can create pressure for students to compare themselves to others or seek approval from strangers. Researchers studying adolescent development note that teenagers are especially sensitive to social feedback during middle school years. Waiting until age sixteen gives students more time to develop confidence and emotional maturity before participating in highly public online environments.</p>
+      <p>Supporters of a higher age limit argue that delaying access would not eliminate creativity or communication. Students could still use educational platforms, school technology tools, and supervised media to learn digital skills. By the time students reach sixteen, they are typically better able to manage their time, think critically about information, and understand the long-term consequences of their online actions.</p>
+      <p>For these reasons, many educators and researchers believe setting an age limit of sixteen for TikTok would help protect younger students. Evidence from psychology organizations, media researchers, and online safety experts shows that adolescents are still developing the responsibility needed to navigate complex social media environments. Waiting until students are older could reduce exposure to harmful content while allowing them to build the maturity required to use technology safely and responsibly.</p>
+    </div>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button data-nav="next">Next</button>
+    </div>
+  </section>
+
+  <section id="screen-practicequestions" class="card hidden">
+    <h2>Practice Questions</h2>
+    <div id="practiceQuestions"></div>
+    <div class="nav">
+      <button data-nav="back">Back</button>
+      <button id="submitBtn">Submit</button>
+    </div>
+  </section>
+
+  <section id="screen-results" class="card hidden">
+    <h2>Results</h2>
+    <div id="resultsArea"></div>
+    <div class="nav">
+      <button id="retryBtn">Try Again</button>
+      <button id="certBtn" class="hidden">View Certificate</button>
+    </div>
+  </section>
+
+  <section id="screen-certificate" class="card hidden">
+    <div class="certificate">
+      <h1>Certificate of Mastery</h1>
+      <p>This certifies that</p>
+      <h2 id="certStudentName" style="border:none; margin-bottom:0;"></h2>
+      <p>has successfully demonstrated mastery of</p>
+      <p><strong>RI.8.1, RI.8.5, RI.8.6, and RI.8.8</strong></p>
+      <div class="seal">★</div>
+      <div class="score-box">Final Score: <span id="certScore"></span>%</div>
+      <p id="certDate"></p>
+      <p>Excellent work in reading, analyzing, and evaluating informational text.</p>
+    </div>
+    <div class="nav">
+      <button id="printBtn">Print Certificate</button>
+      <button id="homeBtn">Return Home</button>
+    </div>
+  </section>
+
+  <div class="footer-note">Created by DWRM, M.Ed</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  document.addEventListener("copy", e => e.preventDefault());
+  document.addEventListener("cut", e => e.preventDefault());
+  document.addEventListener("paste", e => e.preventDefault());
+  document.addEventListener("contextmenu", e => e.preventDefault());
+
+  const screens = [
+    "screen-home","screen-overview","screen-maintext","screen-ri81","screen-ri85","screen-ri86",
+    "screen-ri88","screen-practiceintro","screen-practicetext","screen-practicequestions","screen-results","screen-certificate"
+  ];
+
+  let currentScreen = 0;
+  let studentName = "";
+  let practiceRendered = false;
+  let submitted = false;
+  let dragAnswered = false;
+  let dragCorrect = false;
+  const answers = {};
+
+  const progressBar = document.getElementById("progressBar");
+  const progressLabel = document.getElementById("progressLabel");
+
+  window.toggleHint = function(id){
+    document.getElementById(id).classList.toggle("show");
+  };
+
+  function showScreen(index){
+    currentScreen = index;
+    screens.forEach((id, i) => {
+      document.getElementById(id).classList.toggle("hidden", i !== index);
+    });
+    updateProgress();
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  function updateProgress(){
+    const percent = Math.round((currentScreen / (screens.length - 1)) * 100);
+    progressBar.style.width = percent + "%";
+    progressLabel.textContent = "Progress: " + percent + "%";
+  }
+
+  function shuffleArray(arr){
+    const copy = [...arr];
+    for(let i = copy.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function renderCheckQuestion(containerId, qObj){
+    const container = document.getElementById(containerId);
+    const options = shuffleArray(qObj.options);
+    container.innerHTML = "";
+
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <p><strong>${qObj.label}</strong> ${qObj.question}</p>
+      <p class="small-note">${qObj.dok}</p>
+    `;
+
+    const optionHolder = document.createElement("div");
+    const feedback = document.createElement("div");
+    feedback.className = "feedback-box";
+
+    options.forEach(opt => {
+      const div = document.createElement("div");
+      div.className = "option";
+      div.textContent = opt;
+      div.addEventListener("click", () => {
+        if(div.dataset.locked === "true") return;
+
+        answers[qObj.id] = opt;
+        [...optionHolder.querySelectorAll(".option")].forEach(el => {
+          el.dataset.locked = "true";
+          if(el.textContent === qObj.answer){
+            el.classList.add("correct");
+          }
+          if(el.textContent === opt && opt !== qObj.answer){
+            el.classList.add("incorrect");
+          }
+        });
+
+        if(opt === qObj.answer){
+          feedback.className = "feedback-box feedback-correct show";
+          feedback.innerHTML = `
+            <p><strong>Correct.</strong></p>
+            <p><strong>Why this is the best answer:</strong> ${qObj.explanation}</p>
+          `;
+        } else {
+          feedback.className = "feedback-box feedback-wrong show";
+          feedback.innerHTML = `
+            <p><strong>Not quite.</strong></p>
+            <p><strong>Correct Answer:</strong> ${qObj.answer}</p>
+            <p><strong>Why this answer is the most suitable:</strong> ${qObj.explanation}</p>
+            <p><strong>Why your answer is not the best fit:</strong> ${qObj.wrongReason}</p>
+          `;
+        }
+      });
+      optionHolder.appendChild(div);
+    });
+
+    wrap.appendChild(optionHolder);
+    wrap.appendChild(feedback);
+    container.appendChild(wrap);
+  }
+
+  function renderMainQuestions(){
+    renderCheckQuestion("aboutQuestion", {
+      id:"aboutMain",
+      label:"Quick Check",
+      dok:"DOK 3",
+      question:"What is the central idea of the main text?",
+      options:[
+        "The text argues that younger students may not be ready to use TikTok responsibly because of concerns about mental health, misinformation, and online safety.",
+        "The text explains that all social media should be removed from schools immediately.",
+        "The text mainly describes how TikTok became popular among teenagers over time.",
+        "The text argues that entertainment is more important than online safety for adolescents."
+      ],
+      answer:"The text argues that younger students may not be ready to use TikTok responsibly because of concerns about mental health, misinformation, and online safety.",
+      explanation:"The passage repeatedly develops the idea that younger students may not yet be mature enough to use TikTok responsibly. The author supports this central idea with evidence about mental health, misinformation, online safety, and emotional maturity.",
+      wrongReason:"The other choices focus on ideas that are either too narrow, too extreme, or not the main point of the passage."
+    });
+
+    renderCheckQuestion("ri81q1", {
+      id:"ri81main",
+      label:"RI.8.1 Check",
+      dok:"DOK 4",
+      question:"Which detail from the text best supports the inference that TikTok may interfere with students’ academic focus?",
+      options:[
+        "Studies reported by the American Psychological Association show that heavy social media use is linked to increased anxiety, poor sleep, and reduced concentration in school.",
+        "One platform that has grown extremely popular among teenagers is TikTok, an app where users watch and create short videos.",
+        "Another concern involves misinformation.",
+        "For these reasons, some educators suggest that students should wait until age sixteen before using TikTok regularly."
+      ],
+      answer:"Studies reported by the American Psychological Association show that heavy social media use is linked to increased anxiety, poor sleep, and reduced concentration in school.",
+      explanation:"This is the strongest textual evidence because it directly connects social media use to reduced concentration in school. That detail most strongly supports the inference that TikTok may interfere with academic focus.",
+      wrongReason:"Your choice may relate to the topic, but it does not provide the strongest proof about concentration or school focus."
+    });
+
+    renderCheckQuestion("ri85q1", {
+      id:"ri85main",
+      label:"RI.8.5 Check",
+      dok:"DOK 4",
+      question:"How does paragraph 4 develop the author’s ideas?",
+      options:[
+        "It adds another reason to support the argument by explaining the danger of misinformation.",
+        "It restates the claim from paragraph 1 without adding a new idea.",
+        "It shifts the text away from the issue of student maturity.",
+        "It provides directions for safe use of TikTok."
+      ],
+      answer:"It adds another reason to support the argument by explaining the danger of misinformation.",
+      explanation:"Paragraph 4 begins with “Another concern,” which signals that the author is adding a new supporting point. The paragraph then explains how misinformation can mislead younger users, which strengthens the overall argument.",
+      wrongReason:"The paragraph does not simply repeat earlier ideas, change the topic, or provide instructions. Its main role is to add a new supporting reason."
+    });
+
+    renderCheckQuestion("ri86q1", {
+      id:"ri86main",
+      label:"RI.8.6 Check",
+      dok:"DOK 4",
+      question:"How does the author respond to the viewpoint that TikTok has positive qualities?",
+      options:[
+        "The author acknowledges that TikTok can encourage creativity, then explains why younger students still may not be ready for its risks.",
+        "The author ignores that viewpoint and refuses to mention any positive features.",
+        "The author changes the topic from social media to school rules.",
+        "The author argues that creativity is more important than safety."
+      ],
+      answer:"The author acknowledges that TikTok can encourage creativity, then explains why younger students still may not be ready for its risks.",
+      explanation:"The passage admits that TikTok can be creative, but the author then shifts to concerns about maturity, safety, and responsibility. This shows acknowledgment of another viewpoint followed by a response.",
+      wrongReason:"The author does mention a positive feature, does not switch topics, and does not place creativity above safety."
+    });
+
+    renderCheckQuestion("ri88q1", {
+      id:"ri88main",
+      label:"RI.8.8 Check",
+      dok:"DOK 4",
+      question:"Which evaluation of the author’s argument is strongest?",
+      options:[
+        "The argument is effective because it is supported by relevant evidence from experts and organizations connected to the issue.",
+        "The argument is ineffective because it mentions more than one reason.",
+        "The argument is weak because it includes the word creativity.",
+        "The argument fails because it focuses on students instead of adults."
+      ],
+      answer:"The argument is effective because it is supported by relevant evidence from experts and organizations connected to the issue.",
+      explanation:"The author supports the claim with research and expert-based evidence related to adolescent development, mental health, and online safety. That makes the reasoning sound and the evidence relevant.",
+      wrongReason:"The number of reasons does not weaken an argument, mentioning creativity does not make the claim weak, and focusing on students is appropriate because students are the subject of the argument."
+    });
+
+    window.mainAnswerKey = {
+      aboutMain:"The text argues that younger students may not be ready to use TikTok responsibly because of concerns about mental health, misinformation, and online safety.",
+      ri81main:"Studies reported by the American Psychological Association show that heavy social media use is linked to increased anxiety, poor sleep, and reduced concentration in school.",
+      ri85main:"It adds another reason to support the argument by explaining the danger of misinformation.",
+      ri86main:"The author acknowledges that TikTok can encourage creativity, then explains why younger students still may not be ready for its risks.",
+      ri88main:"The argument is effective because it is supported by relevant evidence from experts and organizations connected to the issue."
+    };
+  }
+
+  function renderPracticeQuestions(){
+    if(practiceRendered) return;
+    practiceRendered = true;
+
+    const practiceData = [
+      {
+        id:"q1",
+        label:"RI.8.1 Question 1",
+        dok:"DOK 3",
+        question:"Which sentence from the passage best supports the inference that TikTok can interfere with students’ academic responsibilities?",
+        options:[
+          "As a result, many students lose track of time and spend hours scrolling instead of focusing on schoolwork, physical activity, or healthy sleep habits.",
+          "One of the most popular platforms among adolescents is TikTok, an app where users watch and create short videos.",
+          "Supporters of a higher age limit argue that delaying access would not eliminate creativity or communication.",
+          "Reports from Pew Research Center indicate that many teenagers have experienced some form of online harassment or unwanted contact."
+        ],
+        answer:"As a result, many students lose track of time and spend hours scrolling instead of focusing on schoolwork, physical activity, or healthy sleep habits."
+      },
+      {
+        id:"q2",
+        label:"RI.8.1 Question 2",
+        dok:"DOK 4",
+        question:"Which evidence most strongly supports the conclusion that the author believes younger teens need more development before using TikTok responsibly?",
+        options:[
+          "Evidence from psychology organizations, media researchers, and online safety experts shows that adolescents are still developing the responsibility needed to navigate complex social media environments.",
+          "One of the most popular platforms among adolescents is TikTok, an app where users watch and create short videos.",
+          "Students could still use educational platforms, school technology tools, and supervised media to learn digital skills.",
+          "TikTok allows strangers to comment on videos, send messages, and share personal content widely."
+        ],
+        answer:"Evidence from psychology organizations, media researchers, and online safety experts shows that adolescents are still developing the responsibility needed to navigate complex social media environments."
+      },
+      {
+        id:"q3",
+        label:"RI.8.5 Question 1",
+        dok:"DOK 3",
+        question:"How does paragraph 3 contribute to the development of the passage’s central argument?",
+        options:[
+          "It develops the argument by introducing one major risk and showing how limited critical thinking can make that risk more serious for younger users.",
+          "It develops the argument by proving that all online challenges are dangerous and must be removed from social media.",
+          "It develops the argument by shifting the passage away from the topic of age limits and toward the topic of entertainment.",
+          "It develops the argument by describing how students create videos on TikTok."
+        ],
+        answer:"It develops the argument by introducing one major risk and showing how limited critical thinking can make that risk more serious for younger users."
+      },
+      {
+        id:"q4",
+        label:"RI.8.5 Question 2",
+        dok:"DOK 4",
+        question:"Which statement best explains the role of the first sentence in paragraph 5?",
+        options:[
+          "It introduces an additional reason supporting the argument before the paragraph expands on that concern with examples and explanation.",
+          "It concludes the passage by restating the thesis in stronger language than before.",
+          "It shifts the passage to a new topic unrelated to the author’s main claim.",
+          "It provides statistical evidence that is later disproved by the final paragraph."
+        ],
+        answer:"It introduces an additional reason supporting the argument before the paragraph expands on that concern with examples and explanation."
+      },
+      {
+        id:"q5",
+        label:"RI.8.6 Question 1",
+        dok:"DOK 3",
+        question:"What is the author’s primary point of view in the passage?",
+        options:[
+          "TikTok should be restricted for students under sixteen because many adolescents are not yet prepared to manage its risks responsibly.",
+          "TikTok is mostly harmful and should be removed from all devices used by teenagers.",
+          "TikTok is an excellent educational resource that schools should encourage students to use more often.",
+          "TikTok’s popularity proves that most teenagers are already mature enough to handle social media safely."
+        ],
+        answer:"TikTok should be restricted for students under sixteen because many adolescents are not yet prepared to manage its risks responsibly."
+      },
+      {
+        id:"q6",
+        label:"RI.8.6 Question 2",
+        dok:"DOK 4",
+        question:"How does the author acknowledge a competing viewpoint while still maintaining the main argument?",
+        options:[
+          "By admitting that TikTok can be entertaining and creative, then arguing that these benefits do not outweigh the concerns for younger users.",
+          "By refusing to mention any positive aspect of TikTok so the argument remains strict and one-sided.",
+          "By suggesting that creativity matters more than safety when students use online platforms.",
+          "By arguing that educational platforms and TikTok serve exactly the same purpose for adolescents."
+        ],
+        answer:"By admitting that TikTok can be entertaining and creative, then arguing that these benefits do not outweigh the concerns for younger users."
+      },
+      {
+        id:"q7",
+        label:"RI.8.8 Question 1",
+        dok:"DOK 3",
+        question:"Which statement best evaluates the author’s reasoning in the passage?",
+        options:[
+          "The reasoning is sound because the author connects several specific risks to the claim that younger students may not be ready for TikTok.",
+          "The reasoning is weak because the author only relies on personal opinion and gives no outside support at all.",
+          "The reasoning is unsound because the author focuses only on one narrow example from a single student.",
+          "The reasoning is irrelevant because the author never explains how social media affects teenagers."
+        ],
+        answer:"The reasoning is sound because the author connects several specific risks to the claim that younger students may not be ready for TikTok."
+      },
+      {
+        id:"q8",
+        label:"RI.8.8 Question 2",
+        dok:"DOK 4",
+        question:"Which option best evaluates whether the evidence is sufficient to support the author’s claim?",
+        options:[
+          "The evidence is sufficient because it includes multiple types of support from psychology organizations, media experts, and safety research that all connect to the main claim.",
+          "The evidence is insufficient because the passage mentions both benefits and risks, which means the author has no clear argument.",
+          "The evidence is insufficient because the author does not provide the exact name of every study ever conducted on social media use.",
+          "The evidence is sufficient only because TikTok is popular among teenagers, which automatically proves the author’s claim."
+        ],
+        answer:"The evidence is sufficient because it includes multiple types of support from psychology organizations, media experts, and safety research that all connect to the main claim."
+      }
+    ];
+
+    const practiceWrap = document.getElementById("practiceQuestions");
+    practiceWrap.innerHTML = "";
+
+    practiceData.forEach(qObj => {
+      const block = document.createElement("div");
+      block.className = "question-block";
+      block.id = "block-" + qObj.id;
+
+      const title = document.createElement("p");
+      title.innerHTML = `<strong>${qObj.label}</strong> ${qObj.question}<br><span class="small-note">${qObj.dok}</span>`;
+      block.appendChild(title);
+
+      shuffleArray(qObj.options).forEach(opt => {
+        const option = document.createElement("div");
+        option.className = "option";
+        option.textContent = opt;
+        option.addEventListener("click", () => {
+          if(submitted) return;
+          answers[qObj.id] = opt;
+          [...block.querySelectorAll(".option")].forEach(el => el.classList.remove("selected"));
+          option.classList.add("selected");
+        });
+        block.appendChild(option);
+      });
+
+      practiceWrap.appendChild(block);
+    });
+
+    window.practiceAnswerKey = Object.fromEntries(practiceData.map(q => [q.id, q.answer]));
+  }
+
+  function markPractice(){
+    const answerKey = window.practiceAnswerKey;
+    Object.keys(answerKey).forEach(id => {
+      const block = document.getElementById("block-" + id);
+      if(!block) return;
+      const opts = [...block.querySelectorAll(".option")];
+      opts.forEach(opt => {
+        if(opt.textContent === answerKey[id]) opt.classList.add("correct");
+        if(answers[id] === opt.textContent && answers[id] !== answerKey[id]) {
+          opt.classList.add("incorrect");
+        }
+      });
+    });
+  }
+
+  function scoreAll(){
+    const allKeys = {...window.mainAnswerKey, ...window.practiceAnswerKey};
+    let correct = 0;
+    let total = Object.keys(allKeys).length + 1;
+
+    Object.keys(allKeys).forEach(key => {
+      if(answers[key] === allKeys[key]) correct++;
+    });
+
+    if(dragCorrect) correct++;
+
+    return {
+      correct,
+      total,
+      percent: Math.round((correct / total) * 100)
+    };
+  }
+
+  function submitPractice(){
+    submitted = true;
+    markPractice();
+
+    const result = scoreAll();
+    const area = document.getElementById("resultsArea");
+    const certBtn = document.getElementById("certBtn");
+
+    area.innerHTML = `
+      <p><strong>${studentName}</strong>, you answered <strong>${result.correct}</strong> out of <strong>${result.total}</strong> scored items correctly.</p>
+      <p class="score-box">Your Score: ${result.percent}%</p>
+      ${result.percent >= 80
+        ? `<div class="standard-box"><p>Congratulations. You earned your certificate because you reached the mastery goal of 80% or higher.</p></div>`
+        : `<div class="warning"><p>You did not reach 80% yet. Review the standards, think carefully about the text evidence, and try again.</p></div>`
+      }
+    `;
+
+    certBtn.classList.toggle("hidden", result.percent < 80);
+    document.getElementById("certStudentName").textContent = studentName;
+    document.getElementById("certScore").textContent = result.percent;
+    document.getElementById("certDate").textContent = "Awarded on " + new Date().toLocaleDateString();
+
+    showScreen(10);
+  }
+
+  function resetGame(){
+    Object.keys(answers).forEach(k => delete answers[k]);
+    submitted = false;
+    practiceRendered = false;
+    dragAnswered = false;
+    dragCorrect = false;
+    document.getElementById("practiceQuestions").innerHTML = "";
+    document.getElementById("dragResult").textContent = "";
+    document.getElementById("dropZone").textContent = "Drop the strongest evidence here";
+    document.getElementById("dropZone").classList.remove("filled");
+    renderMainQuestions();
+    setupDragDrop();
+    showScreen(0);
+  }
+
+  function setupDragDrop(){
+    const bank = document.getElementById("dragBank");
+    const zone = document.getElementById("dropZone");
+    const result = document.getElementById("dragResult");
+    if(!bank || !zone) return;
+
+    zone.addEventListener("dragover", e => e.preventDefault());
+
+    zone.addEventListener("drop", e => {
+      e.preventDefault();
+      if(submitted) return;
+      const text = e.dataTransfer.getData("text/plain");
+      const correct = e.dataTransfer.getData("correct") === "true";
+      zone.textContent = text;
+      zone.classList.add("filled");
+      dragAnswered = true;
+      dragCorrect = correct;
+      result.textContent = correct
+        ? "Correct. This evidence most directly supports the claim because it explains that adolescents are still developing the responsibility needed to manage complex social media environments."
+        : "Not the strongest choice. This detail relates to the topic, but it does not best prove the claim.";
+      result.style.color = correct ? "#1f6b52" : "#8b1e3f";
+    });
+
+    [...bank.querySelectorAll(".drag-item")].forEach(item => {
+      item.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("text/plain", item.textContent);
+        e.dataTransfer.setData("correct", item.dataset.correct);
+      });
+    });
+  }
+
+  document.getElementById("startBtn").addEventListener("click", () => {
+    const name = document.getElementById("studentName").value.trim();
+    if(!name){
+      alert("Please enter your name before beginning.");
+      return;
+    }
+    studentName = name;
+    renderMainQuestions();
+    setupDragDrop();
+    showScreen(1);
+  });
+
+  document.querySelectorAll("[data-nav='next']").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if(currentScreen === 8 && !practiceRendered){
+        renderPracticeQuestions();
+      }
+      if(currentScreen < 9){
+        showScreen(currentScreen + 1);
+      }
+    });
+  });
+
+  document.querySelectorAll("[data-nav='back']").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if(currentScreen > 0){
+        showScreen(currentScreen - 1);
+      }
+    });
+  });
+
+  document.getElementById("submitBtn").addEventListener("click", submitPractice);
+  document.getElementById("retryBtn").addEventListener("click", resetGame);
+  document.getElementById("certBtn").addEventListener("click", () => showScreen(11));
+  document.getElementById("printBtn").addEventListener("click", () => window.print());
+  document.getElementById("homeBtn").addEventListener("click", resetGame);
+
+  showScreen(0);
+})();
+</script>
+</body>
+</html>
